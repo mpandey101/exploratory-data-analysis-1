@@ -1,0 +1,19 @@
+#read data
+powerdata<-read.csv(file='household_power_consumption.txt' ,sep=';',header=TRUE, stringsAsFactors = FALSE, na.strings= "?", strip.white=TRUE)
+
+#convert date
+powerdata$Date<-as.Date(powerdata$Date, format="%d/%m/%Y")
+
+#take required data
+powerdata<-subset(powerdata,subset = (powerdata$Date =='2007-02-01' | powerdata$Date =='2007-02-02'))
+
+#get datetime
+powerdata$datetime<-paste(powerdata$Date,powerdata$Time)
+powerdata$datetime<- as.POSIXct(powerdata$datetime)
+
+#plot to png
+png("plot2.png", width = 480, height = 480)
+plot(powerdata$Global_active_power~powerdata$datetime, type="l",ylab="Global Active Power (kilowatts)", xlab="")
+dev.off()
+
+ 
